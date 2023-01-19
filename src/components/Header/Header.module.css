@@ -1,0 +1,14 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header__link {
+	text-decoration: none;
+}
+
+.header__cartIcon {
+	width: 2rem;
+	transform: scaleX(-1);
+}
