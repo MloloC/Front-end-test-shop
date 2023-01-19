@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import { redirect, useParams } from 'react-router-dom';
 
 const Product = () => {
-	const { productId } = useParams();
-	const [product, setProduct] = useState([]);
+	const params = useParams();
 
+	const [product, setProduct] = useState([]);
+	console.log(params, '<= QUII');
 	const getProducts = async () => {
-		if (!productId) return;
+		if (!params.product) return;
 
 		const response = await fetch(
-			`https://2gm2eu9uuw.us-east-1.awsapprunner.com/api/product/${productId}`
+			`https://2gm2eu9uuw.us-east-1.awsapprunner.com/api/product/${params.product}`
 		);
 		const data = await response.json();
 
@@ -23,7 +24,7 @@ const Product = () => {
 
 	useEffect(() => {
 		getProducts();
-	}, [productId]);
+	}, [params.product]);
 
 	console.log(product, '<= PRODUCTO');
 
