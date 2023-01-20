@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
-import { CartContext } from './contexts/CartContext';
+import { ShopContext } from './contexts/ShopContext';
 import Home from './routes/Home';
 import Product from './routes/Product';
 
@@ -11,13 +11,13 @@ const App = () => {
 	const [cartNumber, setCartNumber] = useState([]);
 
 	return (
-		<CartContext.Provider value={{ cartNumber, setCartNumber }}>
+		<ShopContext.Provider value={{ cartNumber, setCartNumber }}>
 			<Header />
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/:product' element={<Product />} />
 			</Routes>
-		</CartContext.Provider>
+		</ShopContext.Provider>
 	);
 };
 

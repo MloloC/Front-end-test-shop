@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { CartContext } from '../../contexts/CartContext';
+import { ShopContext } from '../../contexts/ShopContext';
 import CartIcon from '../../img/svg/cartIcon';
 import style from './Header.module.css';
 
 const Header = () => {
-	const { cartNumber } = useContext(CartContext);
+	const { cartNumber } = useContext(ShopContext);
 
 	return (
 		<nav className={style.header}>

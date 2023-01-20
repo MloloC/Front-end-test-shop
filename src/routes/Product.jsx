@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CardDescription from '../components/CardDescription/CardDescription';
 import Select from '../components/Select/Select';
-import { CartContext } from '../contexts/CartContext';
+import { ShopContext } from '../contexts/ShopContext';
 import style from './Product.module.css';
 
 const Product = () => {
@@ -12,8 +12,8 @@ const Product = () => {
 	const { internalMemory, colors } = product;
 	// Obteniendo el parámetro del producto de la URL
 	const params = useParams();
-	// Obteniendo el cartNumber y setCartNumber del CartContext
-	const { cartNumber, setCartNumber } = useContext(CartContext);
+	// Obteniendo el cartNumber y setCartNumber del ShopContext
+	const { cartNumber, setCartNumber } = useContext(ShopContext);
 
 	// Función para obtener la información del producto de la API
 	const getProduct = async () => {
