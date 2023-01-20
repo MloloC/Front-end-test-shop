@@ -1,58 +1,71 @@
-import { useEffect, useState } from 'react';
-import { redirect, useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import CardDescription from '../components/CardDescription/CardDescription';
 import Select from '../components/Select/Select';
+import { CartContext } from '../contexts/CartContext';
 import style from './Product.module.css';
 
 const Product = () => {
-	const [product, setProduct] = useState([]);
+	const [product, setProduct] = useState({});
 	const [memorySelected, setMemorySelected] = useState('');
 	const [colorSelected, setColorSelected] = useState('');
 	const { internalMemory, colors } = product;
+	// Obteniendo el parámetro del producto de la URL
 	const params = useParams();
+	// Obteniendo el cartNumber y setCartNumber del CartContext
+	const { cartNumber, setCartNumber } = useContext(CartContext);
 
-	const getProducts = async () => {
+	// Función para obtener la información del producto de la API
+	const getProduct = async () => {
 		if (!params.product) return;
 
-		const response = await fetch(
-			`https://2gm2eu9uuw.us-east-1.awsapprunner.com/api/product/${params.product}`
-		);
-		const data = await response.json();
+		try {
+			// Realizar la llamada a la API
+			const response = await fetch(
+				`https://2gm2eu9uuw.us-east-1.awsapprunner.com/api/product/${params.product}`
+			);
+			// Procesar la respuesta en formato json
+			const data = await response.json();
 
-		if (data) {
+			// Si la llamada es exitosa, actualizar los estados del producto, memorySelected y colorSelected
 			setProduct(data);
 			setMemorySelected(data.internalMemory[0]);
 			setColorSelected(data.colors[0]);
-		} else {
-			console.log('Hubo un error');
-			redirect('/');
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
 	useEffect(() => {
-		getProducts();
+		getProduct();
 	}, [params.product]);
 
-	console.log(product, '<= PRODUCTOS');
-
 	const onAddToCart = async () => {
+		// Crear un objeto con los datos necesarios para agregar el producto al carrito
 		const data = {
 			id: product.id,
 			colorCode: memorySelected,
 			storageCode: colorSelected
 		};
-		const response = await fetch(
-			'https://2gm2eu9uuw.us-east-1.awsapprunner.com/api/cart',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(data)
-			}
-		);
-		const result = await response.json();
-		console.log(result);
+		try {
+			// Realizar la llamada a la API para agregar el producto al carrito
+			const response = await fetch(
+				'https://2gm2eu9uuw.us-east-1.awsapprunner.com/api/cart',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(data)
+				}
+			);
+			// Procesar la respuesta en formato json
+			const result = await response.json();
+			// Actualizar el número de artículos en el carrito
+			setCartNumber([...cartNumber, parseInt(result.count)]);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (

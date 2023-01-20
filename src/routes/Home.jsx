@@ -7,25 +7,34 @@ const Home = () => {
 	const [products, setProducts] = useState([]);
 	const [search, setSearch] = useState('');
 
+	// Función para obtener los productos de la API
 	const getProducts = async () => {
-		const response = await fetch(
-			'https://2gm2eu9uuw.us-east-1.awsapprunner.com/api/product'
-		);
-		const data = await response.json();
+		try {
+			const response = await fetch(
+				'https://2gm2eu9uuw.us-east-1.awsapprunner.com/api/product'
+			);
+			const data = await response.json();
 
-		if (data && data.length > 0) {
-			setProducts(data);
-		} else {
-			console.log('Hubo un error');
+			if (data && data.length > 0) {
+				// Si se obtiene la información, actualizar el estado de products
+				setProducts(data);
+			} else {
+				console.log('Hubo un error');
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
+	// UseEffect para llamar la función al cargar el componente
 	useEffect(() => {
 		getProducts();
 	}, []);
 
+	// Normalizar la búsqueda a minúsculas
 	const normalizedSearch = search.toLowerCase();
 
+	// Filtrar los productos según la búsqueda
 	const productFiltered = search
 		? products.filter(
 				product =>
