@@ -12,6 +12,7 @@ npm run lint: Ejecuta eslint en el proyecto y arregla cualquier error automátic
 
 react: versión 18.2.0
 react-dom: versión 18.2.0
+react-router-dom: versión 6.7.0
 
 ## Dependencias de desarrollo
 

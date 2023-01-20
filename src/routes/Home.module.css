@@ -1,0 +1,45 @@
+.container {
+	max-width: 1140px;
+	margin: 1rem auto;
+	padding: 0 1.25rem;
+}
+
+.container__search {
+	display: flex;
+	justify-content: flex-end;
+	margin: 2rem 0;
+}
+
+.container__productList {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.container__productList_link {
+	width: 45%;
+	text-decoration: none;
+	text-align: center;
+}
+
+@media screen and (min-width: 460px) {
+	.container__productList_link {
+		width: 23.5%;
+	}
+}
+
+.container__productList_img {
+	width: 100%;
+	height: auto;
+}
+
+.container__productList_title {
+	color: var(--color-gray);
+	font-size: 1.125rem;
+}
+
+.container__productList_price {
+	color: var(--color-green);
+	font-size: 1.5rem;
+}

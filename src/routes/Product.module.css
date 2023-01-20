@@ -1,0 +1,94 @@
+.container {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 1rem;
+	max-width: 1140px;
+	margin: 1rem auto;
+	padding: 0 1.25rem;
+}
+
+.container__image {
+	position: relative;
+	width: 100%;
+}
+
+@media screen and (min-width: 555px) {
+	.container__image {
+		position: sticky;
+		top: 20px;
+		width: 38%;
+		height: fit-content;
+	}
+}
+
+@media screen and (min-width: 670px) {
+	.container__image {
+		width: 47.5%;
+	}
+}
+
+.container__image_img {
+	width: 100%;
+	height: auto;
+}
+
+.container__text {
+	width: 100%;
+}
+
+@media screen and (min-width: 555px) {
+	.container__text {
+		width: 58%;
+	}
+}
+
+@media screen and (min-width: 670px) {
+	.container__text {
+		width: 47.5%;
+	}
+}
+
+.actions {
+	display: flex;
+	gap: 1rem;
+}
+
+.container__text_btn {
+	margin: 1rem 0;
+	z-index: 1;
+	position: relative;
+	font-size: inherit;
+	font-family: inherit;
+	color: white;
+	padding: 0.5em 1em;
+	outline: none;
+	border: none;
+	background-color: var(--color-green);
+	overflow: hidden;
+	transition: color 0.4s ease-in-out;
+}
+
+.container__text_btn::before {
+	content: '';
+	z-index: -1;
+	position: absolute;
+	top: 100%;
+	right: 100%;
+	width: 1em;
+	height: 1em;
+	border-radius: 50%;
+	background-color: var(--color-blue);
+	transform-origin: center;
+	transform: translate3d(50%, -50%, 0) scale3d(0, 0, 0);
+	transition: transform 0.45s ease-in-out;
+}
+
+.container__text_btn:hover {
+	cursor: pointer;
+	color: #161616;
+}
+
+.container__text_btn:hover::before {
+	transform: translate3d(50%, -50%, 0) scale3d(30, 30, 30);
+}

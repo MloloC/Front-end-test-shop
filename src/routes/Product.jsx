@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import { redirect, useParams } from 'react-router-dom';
+import CardDescription from '../components/CardDescription/CardDescription';
+import Select from '../components/Select/Select';
+import style from './Product.module.css';
 
 const Product = () => {
+	const [product, setProduct] = useState([]);
+	const [memorySelected, setMemorySelected] = useState('');
+	const [colorSelected, setColorSelected] = useState('');
+	const { internalMemory, colors } = product;
 	const params = useParams();
 
-	const [product, setProduct] = useState([]);
-	console.log(params, '<= QUII');
 	const getProducts = async () => {
 		if (!params.product) return;
 
@@ -16,6 +21,8 @@ const Product = () => {
 
 		if (data) {
 			setProduct(data);
+			setMemorySelected(data.internalMemory[0]);
+			setColorSelected(data.colors[0]);
 		} else {
 			console.log('Hubo un error');
 			redirect('/');
@@ -26,13 +33,52 @@ const Product = () => {
 		getProducts();
 	}, [params.product]);
 
-	console.log(product, '<= PRODUCTO');
+	console.log(product, '<= PRODUCTOS');
+
+	const onAddToCart = async () => {
+		const data = {
+			id: product.id,
+			colorCode: memorySelected,
+			storageCode: colorSelected
+		};
+		const response = await fetch(
+			'https://2gm2eu9uuw.us-east-1.awsapprunner.com/api/cart',
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			}
+		);
+		const result = await response.json();
+		console.log(result);
+	};
 
 	return (
-		<>
-			<h2>Desde producto wola</h2>
-			<h3>{product.model}</h3>
-		</>
+		<section className={style.container}>
+			<div className={style.container__image}>
+				<img
+					src={product.imgUrl}
+					alt={product.model}
+					className={style.container__image_img}
+				/>
+			</div>
+
+			<div className={style.container__text}>
+				<CardDescription product={product} />
+
+				<div className={style.actions}>
+					<Select prop={internalMemory} setMemorySelected={setMemorySelected} />
+
+					<Select prop={colors} setMemorySelected={setMemorySelected} />
+				</div>
+
+				<button onClick={onAddToCart} className={style.container__text_btn}>
+					Añadir al carrito
+				</button>
+			</div>
+		</section>
 	);
 };
 
