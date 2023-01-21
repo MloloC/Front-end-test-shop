@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import CardDescription from '../components/CardDescription/CardDescription';
 import Select from '../components/Select/Select';
 import { ShopContext } from '../contexts/ShopContext';
+import ArrowLeft from '../img/svg/ArrowLeft';
 import style from './Product.module.css';
 
 const Product = () => {
@@ -13,7 +14,8 @@ const Product = () => {
 	// Obteniendo el parámetro del producto de la URL
 	const params = useParams();
 	// Obteniendo el cartNumber y setCartNumber del ShopContext
-	const { cartNumber, setCartNumber } = useContext(ShopContext);
+	const { cartNumber, setCartNumber, setProductTitle } =
+		useContext(ShopContext);
 
 	// Función para obtener la información del producto de la API
 	const getProduct = async () => {
@@ -38,7 +40,8 @@ const Product = () => {
 
 	useEffect(() => {
 		getProduct();
-	}, [params.product]);
+		setProductTitle(product.model);
+	}, [params.product, product.model]);
 
 	const onAddToCart = async () => {
 		// Crear un objeto con los datos necesarios para agregar el producto al carrito
@@ -71,6 +74,10 @@ const Product = () => {
 	return (
 		<section className={style.container}>
 			<div className={style.container__image}>
+				<ArrowLeft
+					className={style.container__image_arrowBack}
+					onClick={() => window?.history?.back()}
+				/>
 				<img
 					src={product.imgUrl}
 					alt={product.model}

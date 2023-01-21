@@ -1,0 +1,9 @@
+.breadcrumb {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.bradcrumb__link {
+	text-decoration: none;
+	color: var(--color-green);
+}

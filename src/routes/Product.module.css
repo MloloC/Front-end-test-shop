@@ -28,6 +28,13 @@
 	}
 }
 
+.container__image_arrowBack {
+	color: var(--color-green);
+	width: 30px;
+	cursor: pointer;
+	margin: 2rem 0;
+}
+
 .container__image_img {
 	width: 100%;
 	height: auto;

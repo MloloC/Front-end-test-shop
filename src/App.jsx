@@ -9,9 +9,12 @@ const App = () => {
 	// Se que no es necesario el usar useContext para esto, pero me daba a entender un poco la tarea como que había que tener acceso desde cualquier parte.
 	// Podría haber creado este useState aquí y pasarselo como prop a Header y Product para conseguir lo mismo que con context.
 	const [cartNumber, setCartNumber] = useState([]);
+	const [productTitle, setProductTitle] = useState('');
 
 	return (
-		<ShopContext.Provider value={{ cartNumber, setCartNumber }}>
+		<ShopContext.Provider
+			value={{ cartNumber, setCartNumber, productTitle, setProductTitle }}
+		>
 			<Header />
 			<Routes>
 				<Route path='/' element={<Home />} />
