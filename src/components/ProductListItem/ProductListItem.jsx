@@ -21,7 +21,9 @@ const ProductListItem = ({ products }) => {
 								{product.model} |{' '}
 								<span className={style.productList_brand}>{product.brand}</span>
 							</h2>
-							<p className={style.productList_price}>{product.price} €</p>
+							<p className={style.productList_price}>
+								{product.price ? product.price + '€' : 'N/A'}
+							</p>
 						</article>
 					</Link>
 				);
