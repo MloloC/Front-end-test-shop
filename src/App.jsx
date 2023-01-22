@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
+import Loader from './components/Loader/Loader';
 import { ShopContext } from './contexts/ShopContext';
 import Home from './routes/Home';
 import Product from './routes/Product';
@@ -10,12 +11,20 @@ const App = () => {
 	// Podría haber creado este useState aquí y pasarselo como prop a Header y Product para conseguir lo mismo que con context.
 	const [cartNumber, setCartNumber] = useState([]);
 	const [productTitle, setProductTitle] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	return (
 		<ShopContext.Provider
-			value={{ cartNumber, setCartNumber, productTitle, setProductTitle }}
+			value={{
+				cartNumber,
+				setCartNumber,
+				productTitle,
+				setProductTitle,
+				setLoading
+			}}
 		>
 			<Header />
+			<Loader loading={loading} />
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/:product' element={<Product />} />

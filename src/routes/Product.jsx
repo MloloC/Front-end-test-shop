@@ -11,16 +11,33 @@ const Product = () => {
 	const [memorySelected, setMemorySelected] = useState('');
 	const [colorSelected, setColorSelected] = useState('');
 	const { internalMemory, colors } = product;
-	// Obteniendo el parámetro del producto de la URL
 	const params = useParams();
-	// Obteniendo el cartNumber y setCartNumber del ShopContext
-	const { cartNumber, setCartNumber, setProductTitle } =
+	const { cartNumber, setCartNumber, setProductTitle, setLoading } =
 		useContext(ShopContext);
 
-	// Función para obtener la información del producto de la API
+	// UseEffect para obtener la información del producto y establecer el título del producto
+	useEffect(() => {
+		// Chequea si el producto esta en el localstorage y si aun no expiro
+		const productInStorage = localStorage.getItem(`product-${params.product}`);
+		const expiration = localStorage.getItem('expiration');
+		// Si el producto esta en el storage y no ha expirado
+		if (productInStorage && expiration > Date.now()) {
+			// Obtiene la data del producto del storage
+			const data = JSON.parse(productInStorage);
+			// Establece el estado con la data
+			setProduct(data);
+			setMemorySelected(data.internalMemory[0]);
+			setColorSelected(data.colors[0]);
+		} else {
+			// Si no esta en el storage o ya expiro, hace una nueva peticion
+			getProduct();
+		}
+	}, [params.product]);
+
 	const getProduct = async () => {
 		if (!params.product) return;
-
+		// Establece el loading como verdadero
+		setLoading(true);
 		try {
 			// Realizar la llamada a la API
 			const response = await fetch(
@@ -33,13 +50,18 @@ const Product = () => {
 			setProduct(data);
 			setMemorySelected(data.internalMemory[0]);
 			setColorSelected(data.colors[0]);
+			// Almacena en el localstorage la data y su tiempo de expiracion
+			localStorage.setItem('expiration', Date.now() + 60 * 60 * 1000);
+			localStorage.setItem(`product-${params.product}`, JSON.stringify(data));
 		} catch (error) {
 			console.log(error);
 		}
+		setTimeout(() => {
+			setLoading(false);
+		}, 1000);
 	};
 
 	useEffect(() => {
-		getProduct();
 		setProductTitle(product.model);
 	}, [params.product, product.model]);
 
@@ -47,8 +69,8 @@ const Product = () => {
 		// Crear un objeto con los datos necesarios para agregar el producto al carrito
 		const data = {
 			id: product.id,
-			colorCode: memorySelected,
-			storageCode: colorSelected
+			colorCode: colorSelected,
+			storageCode: memorySelected
 		};
 		try {
 			// Realizar la llamada a la API para agregar el producto al carrito
@@ -71,12 +93,17 @@ const Product = () => {
 		}
 	};
 
+	const onGoBack = () => {
+		setProductTitle('');
+		if (window) window?.history?.back();
+	};
+
 	return (
 		<section className={style.container}>
 			<div className={style.container__image}>
 				<ArrowLeft
 					className={style.container__image_arrowBack}
-					onClick={() => window?.history?.back()}
+					onClick={onGoBack}
 				/>
 				<img
 					src={product.imgUrl}
@@ -89,9 +116,9 @@ const Product = () => {
 				<CardDescription product={product} />
 
 				<div className={style.actions}>
-					<Select prop={internalMemory} setMemorySelected={setMemorySelected} />
+					<Select prop={internalMemory} setValue={setMemorySelected} />
 
-					<Select prop={colors} setMemorySelected={setMemorySelected} />
+					<Select prop={colors} setValue={setColorSelected} />
 				</div>
 
 				<button onClick={onAddToCart} className={style.container__text_btn}>

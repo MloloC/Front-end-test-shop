@@ -6,12 +6,16 @@ import Breadcrumb from '../Breadcrumb/Breadcrumb';
 import style from './Header.module.css';
 
 const Header = () => {
-	const { cartNumber } = useContext(ShopContext);
+	const { cartNumber, setProductTitle } = useContext(ShopContext);
 	const location = useLocation();
 
 	return (
 		<nav className={style.header}>
-			<Link to='/' className={style.header__link}>
+			<Link
+				to='/'
+				className={style.header__link}
+				onClick={() => setProductTitle('')}
+			>
 				LOGO
 			</Link>
 			<Breadcrumb url={location.pathname} />
