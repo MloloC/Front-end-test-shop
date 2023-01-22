@@ -1,0 +1,31 @@
+.productList_link {
+	width: 45%;
+	text-decoration: none;
+	text-align: center;
+}
+
+@media screen and (min-width: 460px) {
+	.productList_link {
+		width: 23.5%;
+	}
+}
+
+.productList_img {
+	width: 100%;
+	height: auto;
+}
+
+.productList_title {
+	color: var(--color-gray);
+	font-size: 1.125rem;
+}
+
+.productList_brand {
+	color: var(--color-green);
+	font-weight: 400;
+}
+
+.productList_price {
+	color: var(--color-green);
+	font-size: 1.5rem;
+}

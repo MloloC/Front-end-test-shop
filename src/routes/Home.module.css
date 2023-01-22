@@ -16,30 +16,3 @@
 	flex-wrap: wrap;
 	gap: 1rem;
 }
-
-.container__productList_link {
-	width: 45%;
-	text-decoration: none;
-	text-align: center;
-}
-
-@media screen and (min-width: 460px) {
-	.container__productList_link {
-		width: 23.5%;
-	}
-}
-
-.container__productList_img {
-	width: 100%;
-	height: auto;
-}
-
-.container__productList_title {
-	color: var(--color-gray);
-	font-size: 1.125rem;
-}
-
-.container__productList_price {
-	color: var(--color-green);
-	font-size: 1.5rem;
-}

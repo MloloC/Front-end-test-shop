@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import ProductListItem from '../components/ProductListItem/ProductListItem';
 import Search from '../components/Search/Search';
 import { ShopContext } from '../contexts/ShopContext';
 import style from './Home.module.css';
@@ -63,29 +63,7 @@ const Home = () => {
 				<Search search={search} setSearch={setSearch} />
 			</section>
 			<section className={style.container__productList}>
-				{productFiltered?.map(product => {
-					return (
-						<Link
-							to={`/${product.id}`}
-							key={product.id}
-							className={style.container__productList_link}
-						>
-							<img
-								src={product.imgUrl}
-								alt={product.brand}
-								className={style.container__productList_img}
-							/>
-							<article>
-								<h2 className={style.container__productList_title}>
-									{product.model} | {product.brand}
-								</h2>
-								<p className={style.container__productList_price}>
-									{product.price} €
-								</p>
-							</article>
-						</Link>
-					);
-				})}
+				<ProductListItem products={productFiltered} />
 			</section>
 		</div>
 	);
